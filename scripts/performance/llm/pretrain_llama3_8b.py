@@ -21,7 +21,7 @@ from nemo.collections.nlp.modules.common.tokenizer_utils import get_nmt_tokenize
 from nemo.lightning.run.plugins import MemoryProfilePlugin, NsysPlugin
 
 from ..argument_parser import parse_cli_args
-from ..executors import slurm_executor
+from nemo_run.cli.api import LocalExecutor 
 from ..helpers import (
     args_sanity_check,
     build_perf_env_plugin,
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     exp_config = f"{num_nodes}nodes_tp{tp_size}_pp{pp_size}_cp{cp_size}_vp{vp_size}_{mbs}mbs_{gbs}gbs"
     exp_name = f"{splitext(basename(__file__))[0]}_{args.compute_dtype}_{exp_config}"
 
-    executor = slurm_executor(
+    executor = LocalExecutor(
         args.gpu.lower(),
         args.account,
         args.partition,
